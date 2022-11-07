@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Set up environment
+eval $("@Cjyx_BINARY_DIR@/Cjyx" --launcher-show-set-environment-commands)
+
+@EXPORT_GIT_PYTHON_GIT_EXECUTABLE_CONFIG@
+
+# Run the Python launcher
+"@PYTHON@" "@Cjyx_BINARY_DIR@/libexec/ExtensionWizard.py" \
+  --templatePath "@Cjyx_SOURCE_DIR@"/Utilities/Templates "$@"

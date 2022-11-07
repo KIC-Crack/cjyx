@@ -1,0 +1,8 @@
+__version_info__ = (
+  @Cjyx_VERSION_MAJOR@,
+  @Cjyx_VERSION_MINOR@,
+  @Cjyx_VERSION_PATCH@,
+  @Cjyx_VERSION_TWEAK_OR_DEV@
+)
+
+__version__ = ".".join(map(str, __version_info__))

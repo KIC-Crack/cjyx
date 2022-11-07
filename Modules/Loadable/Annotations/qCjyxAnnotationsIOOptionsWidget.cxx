@@ -1,0 +1,154 @@
+/*==============================================================================
+
+  Program: 3D Cjyx
+
+  Copyright (c) Kitware Inc.
+
+  See COPYRIGHT.txt
+  or http://www.slicer.org/copyright/copyright.txt for details.
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  This file was originally developed by Julien Finet, Kitware Inc.
+  and was partially funded by NIH grant 3P41RR013218-12S1
+
+==============================================================================*/
+
+/// Qt includes
+#include <QButtonGroup>
+#include <QFileInfo>
+
+// CTK includes
+#include <ctkFlowLayout.h>
+#include <ctkUtils.h>
+
+/// Annotations includes
+#include <qCjyxIOOptions_p.h>
+#include "qCjyxAnnotationsIOOptionsWidget.h"
+#include "ui_qCjyxAnnotationModuleIOOptionsWidget.h"
+
+//-----------------------------------------------------------------------------
+/// \ingroup Cjyx_QtModules_Annotations
+class qCjyxAnnotationsIOOptionsWidgetPrivate
+  : public qCjyxIOOptionsPrivate
+  , public Ui_qCjyxAnnotationModuleIOOptionsWidget
+{
+public:
+  //void init();
+};
+
+//-----------------------------------------------------------------------------
+qCjyxAnnotationsIOOptionsWidget::qCjyxAnnotationsIOOptionsWidget(QWidget* parentWidget)
+  : qCjyxIOOptionsWidget(new qCjyxAnnotationsIOOptionsWidgetPrivate, parentWidget)
+{
+  Q_D(qCjyxAnnotationsIOOptionsWidget);
+  d->setupUi(this);
+
+  ctkFlowLayout* flowLayout = ctkFlowLayout::replaceLayout(this);
+
+  this->FileTypeButtonGroup = new QButtonGroup(flowLayout);
+  this->FileTypeButtonGroup->addButton(d->FiducialRadioButton);
+  this->FileTypeButtonGroup->addButton(d->RulerRadioButton);
+  this->FileTypeButtonGroup->addButton(d->ROIRadioButton);
+//  this->FileTypeButtonGroup->addButton(d->ListRadioButton);
+  this->connect(this->FileTypeButtonGroup, SIGNAL(buttonClicked(int)),
+                this, SLOT(updateProperties()));
+
+
+  connect(d->NameLineEdit, SIGNAL(textChanged(QString)),
+          this, SLOT(updateProperties()));
+  /*
+  connect(d->FiducialRadioButton, SIGNAL(toggled(bool)),
+          this, SLOT(updateProperties()));
+  connect(d->RulerRadioButton, SIGNAL(toggled(bool)),
+          this, SLOT(updateProperties()));
+  connect(d->ROIRadioButton, SIGNAL(toggled(bool)),
+          this, SLOT(updateProperties()));
+  */
+  // fiducial file by default
+  d->FiducialRadioButton->setChecked(true);
+  // in case the user doesn't touch anything, set up the properties now
+  this->updateProperties();
+}
+
+//-----------------------------------------------------------------------------
+qCjyxAnnotationsIOOptionsWidget::~qCjyxAnnotationsIOOptionsWidget() = default;
+
+//-----------------------------------------------------------------------------
+void qCjyxAnnotationsIOOptionsWidget::updateProperties()
+{
+  Q_D(qCjyxAnnotationsIOOptionsWidget);
+  if (!d->NameLineEdit->text().isEmpty())
+    {
+    QStringList names = d->NameLineEdit->text().split(';');
+    for (int i = 0; i < names.count(); ++i)
+      {
+      names[i] = names[i].trimmed();
+      }
+    d->Properties["name"] = names;
+    }
+  else
+    {
+    d->Properties.remove("name");
+    }
+  d->Properties["fiducial"] = d->FiducialRadioButton->isChecked();
+  d->Properties["ruler"] = d->RulerRadioButton->isChecked();
+  d->Properties["roi"] = d->ROIRadioButton->isChecked();
+//  d->Properties["list"] = d->ListRadioButton->isChecked();
+}
+
+//-----------------------------------------------------------------------------
+void qCjyxAnnotationsIOOptionsWidget::setFileName(const QString& fileName)
+{
+  this->setFileNames(QStringList(fileName));
+}
+
+//-----------------------------------------------------------------------------
+void qCjyxAnnotationsIOOptionsWidget::setFileNames(const QStringList& fileNames)
+{
+  Q_D(qCjyxAnnotationsIOOptionsWidget);
+  QStringList names;
+  foreach(const QString& fileName, fileNames)
+    {
+    QFileInfo fileInfo(fileName);
+    if (fileInfo.isFile())
+      {
+      names << fileInfo.baseName();
+      }
+    // Because '_' is considered as a word character (\w), \b
+    // doesn't consider '_' as a word boundary.
+    QRegExp fiducialName("(\\b|_)(F)(\\b|_)");
+    QRegExp rulerName("(\\b|_)(M)(\\b|_)");
+    QRegExp roiName("(\\b|_)(R)(\\b|_)");
+    QAbstractButton* activeButton = nullptr;
+/*    QRegExp listName("(\\b|_)(List)(\\b|_)");
+    if (fileInfo.baseName().contains(listName))
+      {
+      d->ListRadioButton->setChecked(true);
+      }
+    else
+*/
+    if (fileInfo.baseName().contains(fiducialName))
+      {
+      activeButton = d->FiducialRadioButton;
+      }
+    else if (fileInfo.baseName().contains(rulerName))
+      {
+      activeButton = d->RulerRadioButton;
+      }
+    else if (fileInfo.baseName().contains(roiName))
+      {
+      activeButton = d->ROIRadioButton;
+      }
+    if (activeButton)
+      {
+      activeButton->click();
+      }
+    }
+
+  this->qCjyxIOOptionsWidget::setFileNames(fileNames);
+}

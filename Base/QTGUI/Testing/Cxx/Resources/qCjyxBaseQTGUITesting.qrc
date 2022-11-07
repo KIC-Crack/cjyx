@@ -1,0 +1,12 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource>
+    <file alias="qCjyxScriptedLoadableModuleTestWidget.py">../../Data/Input/qCjyxScriptedLoadableModuleTestWidget.py</file>
+    <file alias="qCjyxScriptedLoadableModuleNewStyleTestWidget.py">../../Data/Input/qCjyxScriptedLoadableModuleNewStyleTestWidget.py</file>
+    <file alias="qCjyxScriptedLoadableModuleSyntaxErrorTestWidget.py">../../Data/Input/qCjyxScriptedLoadableModuleSyntaxErrorTestWidget.py</file>
+    <file alias="qCjyxScriptedLoadableModuleTest.py">../../Data/Input/qCjyxScriptedLoadableModuleTest.py</file>
+    <file alias="qCjyxScriptedLoadableModuleNewStyleTest.py">../../Data/Input/qCjyxScriptedLoadableModuleNewStyleTest.py</file>
+    <file alias="qCjyxScriptedLoadableModuleSyntaxErrorTest.py">../../Data/Input/qCjyxScriptedLoadableModuleSyntaxErrorTest.py</file>
+    <file>Icons/AnnotationPointWithArrow.png</file>
+    <file>Icons/AnnotationDistanceWithArrow.png</file>
+  </qresource>
+</RCC>

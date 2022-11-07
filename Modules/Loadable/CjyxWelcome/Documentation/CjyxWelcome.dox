@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_CjyxWelcome CjyxWelcome
+\ingroup Cjyx_QtModules
+This module is intended as a welcome screen and basic overview of the Cjyx software.
+
+*/

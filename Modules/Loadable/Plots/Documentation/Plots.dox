@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_Plots Plots
+\ingroup Cjyx_QtModules
+This module creates 2D plots from tables by using plot series, chart, and view nodes.
+
+*/

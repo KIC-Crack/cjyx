@@ -1,0 +1,129 @@
+/*
+ * Here is where system computed values get stored.
+ * These values should only change when the target compile platform changes.
+ */
+
+#ifndef __vtkCjyxConfigure_h
+#define __vtkCjyxConfigure_h
+
+#define Cjyx_ORGANIZATION_DOMAIN "@Cjyx_ORGANIZATION_DOMAIN@"
+#define Cjyx_ORGANIZATION_NAME "@Cjyx_ORGANIZATION_NAME@"
+
+#define CJYX_REVISION_SPECIFIC_USER_SETTINGS_FILEBASENAME "@CJYX_REVISION_SPECIFIC_USER_SETTINGS_FILEBASENAME@"
+
+#define Cjyx_DEFAULT_HOME_MODULE "@Cjyx_DEFAULT_HOME_MODULE@"
+#define Cjyx_DEFAULT_FAVORITE_MODULES "@Cjyx_DEFAULT_FAVORITE_MODULES@"
+
+#define Cjyx_DISCLAIMER_AT_STARTUP "@Cjyx_DISCLAIMER_AT_STARTUP@"
+
+#if defined(WIN32) && !defined(VTKCJYX_STATIC)
+#pragma warning ( disable : 4275 )
+#endif
+
+#cmakedefine CMAKE_WORDS_BIGENDIAN
+#ifdef CMAKE_WORDS_BIGENDIAN
+  #define WORDS_BIGENDIAN
+#else
+  #define WORDS_LITTLEENDIAN
+#endif
+
+#cmakedefine BUILD_SHARED_LIBS
+#ifndef BUILD_SHARED_LIBS
+#define VTKCJYX_STATIC
+#endif
+
+#cmakedefine Cjyx_STORE_SETTINGS_IN_APPLICATION_HOME_DIR
+
+#cmakedefine Cjyx_USE_IGSTK
+#cmakedefine Cjyx_USE_NAVITRACK
+#cmakedefine Cjyx_USE_NUMPY
+#cmakedefine Cjyx_USE_PYTHONQT
+#cmakedefine Cjyx_USE_PYTHONQT_WITH_OPENSSL
+#cmakedefine Cjyx_USE_QtTesting
+#cmakedefine Cjyx_USE_OPENTRACKER
+
+#cmakedefine Cjyx_HAVE_QT5
+#cmakedefine Cjyx_HAVE_WEBKIT_SUPPORT
+
+#define VTKCJYX_CONFIGURATION_TYPES "@CMAKE_CONFIGURATION_TYPES@"
+#cmakedefine Cjyx_BUILD_WIN32_CONSOLE
+#cmakedefine Cjyx_BUILD_WIN32_CONSOLE_LAUNCHER
+
+#define Cjyx_MAIN_PROJECT_APPLICATION_NAME "@Cjyx_MAIN_PROJECT_APPLICATION_NAME@"
+#define Cjyx_BIN_DIR "@Cjyx_BIN_DIR@"
+#define Cjyx_LIB_DIR "@Cjyx_LIB_DIR@"
+#define Cjyx_INCLUDE_DIR "@Cjyx_INCLUDE_DIR@"
+#define Cjyx_SHARE_DIR "@Cjyx_SHARE_DIR@"
+#define Cjyx_ITKFACTORIES_DIR "@Cjyx_ITKFACTORIES_DIR@"
+
+#define Cjyx_QtPlugins_DIR "@Cjyx_QtPlugins_DIR@"
+
+#define Cjyx_BUNDLE_LOCATION "@Cjyx_BUNDLE_LOCATION@"
+
+#cmakedefine Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT
+#ifdef Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT
+#  define Cjyx_EXTENSIONS_DIRBASENAME "@Cjyx_EXTENSIONS_DIRBASENAME@"
+#  define Cjyx_EXTENSIONS_DIRNAME "@Cjyx_EXTENSIONS_DIRNAME@"
+#endif
+
+#cmakedefine Cjyx_BUILD_DICOM_SUPPORT
+#cmakedefine Cjyx_BUILD_DIFFUSION_SUPPORT
+#cmakedefine Cjyx_BUILD_I18N_SUPPORT
+#cmakedefine Cjyx_BUILD_MULTIMEDIA_SUPPORT
+#cmakedefine Cjyx_BUILD_PARAMETERSERIALIZER_SUPPORT
+#cmakedefine Cjyx_BUILD_WEBENGINE_SUPPORT
+
+#cmakedefine Cjyx_BUILD_CLI_SUPPORT
+#cmakedefine Cjyx_BUILD_CLI
+#define Cjyx_CLIMODULES_SUBDIR "@Cjyx_CLIMODULES_SUBDIR@"
+#define Cjyx_CLIMODULES_BIN_DIR "@Cjyx_CLIMODULES_BIN_DIR@"
+#define Cjyx_CLIMODULES_LIB_DIR "@Cjyx_CLIMODULES_LIB_DIR@"
+#define Cjyx_CLIMODULES_SHARE_DIR "@Cjyx_CLIMODULES_SHARE_DIR@"
+
+#define Cjyx_CLI_PREFER_EXECUTABLE_DEFAULT true
+
+#cmakedefine Cjyx_USE_PYTHONQT
+#ifdef Cjyx_USE_PYTHONQT
+#  define Cjyx_PYTHON_VERSION_DOT "@Cjyx_PYTHON_VERSION_DOT@"
+#  define Cjyx_PYTHON_VERSION "@Cjyx_PYTHON_VERSION@"
+#  define PYTHON_SITE_PACKAGES_SUBDIR "@PYTHON_SITE_PACKAGES_SUBDIR@"
+#endif //Cjyx_USE_PYTHONQT
+
+#cmakedefine Cjyx_BUILD_QTLOADABLEMODULES
+#define Cjyx_QTLOADABLEMODULES_SUBDIR "@Cjyx_QTLOADABLEMODULES_SUBDIR@"
+#define Cjyx_QTLOADABLEMODULES_BIN_DIR "@Cjyx_QTLOADABLEMODULES_BIN_DIR@"
+#define Cjyx_QTLOADABLEMODULES_LIB_DIR "@Cjyx_QTLOADABLEMODULES_LIB_DIR@"
+#define Cjyx_QTLOADABLEMODULES_INCLUDE_DIR "@Cjyx_QTLOADABLEMODULES_INCLUDE_DIR@"
+#define Cjyx_QTLOADABLEMODULES_SHARE_DIR "@Cjyx_QTLOADABLEMODULES_SHARE_DIR@"
+#ifdef Cjyx_USE_PYTHONQT
+#  define Cjyx_QTLOADABLEMODULES_PYTHON_LIB_DIR "@Cjyx_QTLOADABLEMODULES_PYTHON_LIB_DIR@"
+#endif
+
+#cmakedefine Cjyx_BUILD_QTSCRIPTEDMODULES
+#ifdef Cjyx_USE_PYTHONQT
+#  define Cjyx_QTSCRIPTEDMODULES_SUBDIR "@Cjyx_QTSCRIPTEDMODULES_SUBDIR@"
+#  define Cjyx_QTSCRIPTEDMODULES_BIN_DIR "@Cjyx_QTSCRIPTEDMODULES_BIN_DIR@"
+#  define Cjyx_QTSCRIPTEDMODULES_LIB_DIR "@Cjyx_QTSCRIPTEDMODULES_LIB_DIR@"
+#  define Cjyx_QTSCRIPTEDMODULES_INCLUDE_DIR "@Cjyx_QTSCRIPTEDMODULES_INCLUDE_DIR@"
+#  define Cjyx_QTSCRIPTEDMODULES_SHARE_DIR "@Cjyx_QTSCRIPTEDMODULES_SHARE_DIR@"
+#endif //Cjyx_USE_PYTHONQT
+
+// ThirdParty: Corresponds to superbuild projects built
+// in Cjyx extension.
+#define Cjyx_THIRDPARTY_BIN_DIR "@Cjyx_THIRDPARTY_BIN_DIR@"
+#define Cjyx_THIRDPARTY_LIB_DIR "@Cjyx_THIRDPARTY_LIB_DIR@"
+
+#cmakedefine Cjyx_VTK_RENDERING_USE_OpenGL_BACKEND
+#cmakedefine Cjyx_VTK_RENDERING_USE_OpenGL2_BACKEND
+#cmakedefine Cjyx_VTK_USE_QVTKOPENGLWIDGET
+
+// Library sub-directory - The following macros define directories only valid for a given build tree.
+#define VTK_DIR "@VTK_DIR@"
+#define CTK_DIR "@CTK_DIR@"
+//#define Teem_DIR "@Teem_DIR@"
+
+#define Cjyx_QM_DIR "@Cjyx_QM_DIR@"
+#define Cjyx_QM_OUTPUT_DIRS "@Cjyx_QM_OUTPUT_DIRS@"
+#define Cjyx_LANGUAGES "@Cjyx_LANGUAGES@"
+
+#endif //__vtkCjyxConfigure_h

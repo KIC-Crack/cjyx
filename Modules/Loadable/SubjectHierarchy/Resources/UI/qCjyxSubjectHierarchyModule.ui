@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>qCjyxSubjectHierarchyModule</class>
+ <widget class="qCjyxWidget" name="qCjyxSubjectHierarchyModule">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>283</width>
+    <height>285</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SubjectHierarchy</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qCjyxSubjectHierarchyModule.qrc">
+    <normaloff>:/Icons/SubjectHierarchy.png</normaloff>:/Icons/SubjectHierarchy.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>4</number>
+   </property>
+   <property name="margin">
+    <number>4</number>
+   </property>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qCjyxWidget</class>
+   <extends>QWidget</extends>
+   <header>qCjyxWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qCjyxSubjectHierarchyModule.qrc"/>
+ </resources>
+ <connections/>
+</ui>

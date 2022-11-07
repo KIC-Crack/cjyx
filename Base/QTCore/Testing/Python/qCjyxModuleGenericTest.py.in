@@ -1,0 +1,58 @@
+import unittest
+
+class qCjyx@MODULENAME@ModuleGenericTest(unittest.TestCase):
+
+  def setUp(self):
+    import cjyx
+    self.assertTrue(hasattr(cjyx, 'modules'))
+    self.assertTrue(hasattr(cjyx.modules, '@MODULENAME_LC@'))
+    self.module = cjyx.modules.@MODULENAME_LC@
+
+  def test_file_attribute(self):
+    self.assertRegexpMatches(__file__, r'qCjyx@MODULENAME@ModuleGenericTest.py[c]?$')
+
+  def test_name_attribute(self):
+    self.assertEqual(__name__, 'qCjyx@MODULENAME@ModuleGenericTest')
+
+  def test_module_valid(self):
+    self.assertNotEqual(self.module, None)
+    self.assertEqual(self.module.name, '@MODULENAME@')
+
+  def test_application(self):
+    import cjyx
+    self.assertEqual(cjyx.app.__class__.__name__, 'qCjyxApplication')
+
+  def test_settings(self):
+    import cjyx
+    import ctk
+    self.assertIsInstance(cjyx.app.settings(), ctk.ctkSettings)
+
+  def test_categories(self):
+    self.assertNotEqual(self.module.categories, "")
+
+  def test_acknowledgementText(self):
+    self.assertNotEqual(self.module.acknowledgementText, "")
+
+  def test_contributors(self):
+    self.assertNotEqual(self.module.contributors, "")
+
+  def test_logic(self):
+    self.assertEqual(self.module.logic(), self.module.logic())
+
+  def test_widgetRepresentation(self):
+    self.assertEqual(self.module.widgetRepresentation(), self.module.widgetRepresentation())
+
+  def test_setMRMLScene(self):
+    import cjyx
+    scene = cjyx.vtkMRMLScene()
+    self.module.setMRMLScene(scene)
+    self.assertEqual(self.module.mrmlScene(), scene)
+    self.module.setMRMLScene(cjyx.mrmlScene)
+    self.assertEqual(self.module.mrmlScene(), cjyx.mrmlScene)
+
+  def test_setCurrentModule(self):
+    import cjyx
+    if not cjyx.app.commandOptions().noMainWindow :
+      mainWindow = cjyx.util.mainWindow()
+      mainWindow.moduleSelector().selectModule(self.module.name)
+

@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_Cameras Cameras
+\ingroup Cjyx_QtModules
+This module manages 3D views and cameras nodes.
+
+*/

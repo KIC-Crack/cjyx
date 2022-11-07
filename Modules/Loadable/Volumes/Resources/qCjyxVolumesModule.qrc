@@ -1,0 +1,13 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource>
+    <file>Icons/Small/CjyxAddVolume.png</file>
+    <file>Icons/Medium/CjyxAddVolume.png</file>
+    <file>Icons/Large/CjyxAddVolume.png</file>
+    <file>Icons/XLarge/CjyxAddVolume.png</file>
+
+    <file>Icons/Small/CjyxVolumes.png</file>
+    <file>Icons/Medium/CjyxVolumes.png</file>
+    <file>Icons/Large/CjyxVolumes.png</file>
+    <file>Icons/XLarge/CjyxVolumes.png</file>
+  </qresource>
+</RCC>

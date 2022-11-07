@@ -1,0 +1,18 @@
+<RCC>
+  <qresource>
+    <file>Icons/Chat.png</file> <!-- Adapted from https://openclipart.org/detail/170274/chat-button-by-scyg -->
+    <file>Icons/CjyxWelcome.png</file>
+  </qresource>
+  <qresource>
+    <file>HTML/stylesheet.css</file>
+    <file>HTML/About.html</file>
+    <file>Images/WelcomeLogo.png</file>
+    <file>Images/WelcomeLogo@2x.png</file>
+    <file>HTML/OtherUsefulHints.html</file>
+    <file>HTML/Feedback.html</file>
+    <file>Images/CjyxWWW-Original.png</file>
+    <file>Images/CjyxAdvancedGear-Original.png</file>
+    <file>Images/WelcomeSubjectHierarchy.png</file>
+    <file>HTML/Acknowledgment.html</file>
+  </qresource>
+</RCC>

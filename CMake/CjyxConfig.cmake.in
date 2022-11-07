@@ -1,0 +1,536 @@
+#
+# This file has been primarily designed for the purpose of Cjyx extension development.
+#
+# This file is configured by Cjyx and used by UseCjyx.cmake module
+# to load Cjyx's settings for an external project. External projects
+# can use these setting to build new modules against a Cjyx build tree.
+#
+#
+
+#
+# When manually building extension on macOS, in addition to the usual configure
+# option (CMAKE_BUILD_TYPE, ...), the developer is also expected to
+# configure it passing the variables:
+#   CMAKE_OSX_ARCHITECTURES
+#   CMAKE_OSX_DEPLOYMENT_TARGET
+#   CMAKE_OSX_SYSROOT
+# The value of these variables should match the one used to
+# configure the associated Cjyx build tree. These values can be
+# retrieved looking at the CMakeCache.txt file located in the Cjyx
+# build tree.
+#
+# To simplify the task of manually building out-of-source modules or extensions,
+# the developer could include the following statement at the top of both the main
+# CMakeLists.txt of the extension and also at the top of each module CMakeLists.txt
+# bundled within the extension.
+# Doing so will ensure that either the extension or each bundled module could be
+# built in a standalone fashion very easily without passing extra option
+# at configure time:
+#
+#  find_package(Cjyx COMPONENTS ConfigurePrerequisites REQUIRED)
+#
+#  project(Foo)
+#
+#  [...]
+#
+#  find_package(Cjyx REQUIRED)
+#  include(${Cjyx_USE_FILE})
+#  [...]
+
+
+# Extension support can be disabled by either
+#  (1) setting Cjyx_DONT_USE_EXTENSION to TRUE or
+#  (2) calling find_package(Cjyx COMPONENTS NoExtensionSupport [...] REQUIRED)
+
+
+# --------------------------------------------------------------------------
+#  COMPONENTS                | CMAKE VARIABLE(S)
+# --------------------------------------------------------------------------
+#  NoExtensionSupport        | Cjyx_USE_NOEXTENSIONSUPPORT
+#                            | Cjyx_DONT_USE_EXTENSION
+# --------------------------------------------------------------------------
+#  ConfigurePrerequisites    | Cjyx_USE_CONFIGUREPREREQUISITES
+# --------------------------------------------------------------------------
+
+cmake_minimum_required(VERSION 3.16.3...3.19.7 FATAL_ERROR)
+
+foreach(component NoExtensionSupport ConfigurePrerequisites)
+  string(TOUPPER ${component} _COMPONENT)
+  set(Cjyx_USE_${_COMPONENT} 0)
+endforeach()
+
+if(Cjyx_FIND_COMPONENTS)
+  foreach(component ${Cjyx_FIND_COMPONENTS})
+    string(TOUPPER ${component} _COMPONENT)
+    set(Cjyx_USE_${_COMPONENT} 1)
+  endforeach()
+
+  set(Cjyx_DONT_USE_EXTENSION ${Cjyx_USE_NOEXTENSIONSUPPORT})
+endif()
+
+if(NOT DEFINED Cjyx_DONT_USE_EXTENSION)
+  set(Cjyx_DONT_USE_EXTENSION FALSE)
+endif()
+
+if(NOT DEFINED Cjyx_USE_CONFIGUREPREREQUISITES)
+  set(Cjyx_USE_CONFIGUREPREREQUISITES FALSE)
+endif()
+
+if(Cjyx_SOURCE_DIR)
+  return()
+endif()
+
+# --------------------------------------------------------------------------
+set(Cjyx_CMAKE_DIR "@Cjyx_CMAKE_DIR@")
+set(Cjyx_EXTENSIONS_CMAKE_DIR "@Cjyx_EXTENSIONS_CMAKE_DIR@")
+set(vtkAddon_CMAKE_DIR "@vtkAddon_CMAKE_DIR@")
+
+# Update CMAKE_MODULE_PATH
+set(CMAKE_MODULE_PATH
+  ${Cjyx_CMAKE_DIR}
+  ${Cjyx_EXTENSIONS_CMAKE_DIR}
+  ${vtkAddon_CMAKE_DIR}
+  ${CMAKE_MODULE_PATH}
+  )
+
+# --------------------------------------------------------------------------
+if(Cjyx_USE_CONFIGUREPREREQUISITES)
+  if(NOT Cjyx_PREREQUISITES_CONFIGURED)
+    if(DEFINED CMAKE_PROJECT_NAME)
+      message(FATAL_ERROR
+        "To be effective, 'find_package(Cjyx COMPONENTS ConfigurePrerequisites)' should "
+        "be placed before any calls to 'project()' or 'enable_language()'."
+        "Before re-configuring, make sure to clean the build directory: ${CMAKE_CURRENT_BINARY_DIR}"
+        )
+    endif()
+    # Note: By setting CMAKE_OSX_* variables before any enable_language() or project() calls,
+    #       we ensure that the bitness will be properly detected.
+    include(CjyxInitializeOSXVariables)
+    set(Cjyx_PREREQUISITES_CONFIGURED 1 CACHE INTERNAL "True if component 'ConfigurePrerequisites' has already been included")
+  endif()
+  return()
+endif()
+
+# --------------------------------------------------------------------------
+# Cjyx options
+# --------------------------------------------------------------------------
+set(Cjyx_DEFAULT_BUILD_TYPE "@Cjyx_DEFAULT_BUILD_TYPE@")
+set(Cjyx_USE_NUMPY "@Cjyx_USE_NUMPY@")
+set(Cjyx_USE_SCIPY "@Cjyx_USE_SCIPY@")
+set(Cjyx_USE_PYTHONQT "@Cjyx_USE_PYTHONQT@")
+set(Cjyx_USE_QtTesting "@Cjyx_USE_QtTesting@")
+set(Cjyx_USE_SimpleITK "@Cjyx_USE_SimpleITK@")
+set(Cjyx_USE_TBB "@Cjyx_USE_TBB@")
+set(Cjyx_BUILD_BRAINSTOOLS "@Cjyx_BUILD_BRAINSTOOLS@")
+set(Cjyx_BUILD_CLI_SUPPORT "@Cjyx_BUILD_CLI_SUPPORT@")
+set(Cjyx_BUILD_DICOM_SUPPORT "@Cjyx_BUILD_DICOM_SUPPORT@")
+set(Cjyx_BUILD_DIFFUSION_SUPPORT "@Cjyx_BUILD_DIFFUSION_SUPPORT@")
+set(Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT "@Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT@")
+set(Cjyx_BUILD_PARAMETERSERIALIZER_SUPPORT "@Cjyx_BUILD_PARAMETERSERIALIZER_SUPPORT@")
+set(Cjyx_BUILD_TESTING "@BUILD_TESTING@")
+set(Cjyx_BUILD_WEBENGINE_SUPPORT "@Cjyx_BUILD_WEBENGINE_SUPPORT@")
+
+set(Cjyx_REQUIRED_QT_VERSION "@Cjyx_REQUIRED_QT_VERSION@")
+set(Cjyx_REQUIRED_QT_MODULES "@Cjyx_REQUIRED_QT_MODULES@")
+
+# Launcher command
+set(Cjyx_USE_CTKAPPLAUNCHER "@Cjyx_USE_CTKAPPLAUNCHER@")
+set(Cjyx_LAUNCHER_EXECUTABLE "@Cjyx_LAUNCHER_EXECUTABLE_CONFIG@")
+set(Cjyx_LAUNCH_COMMAND "@Cjyx_LAUNCH_COMMAND_CONFIG@")
+set(SEM_LAUNCH_COMMAND "@Cjyx_LAUNCH_COMMAND_CONFIG@")
+
+# VCS commands
+set(GIT_EXECUTABLE "@GIT_EXECUTABLE@"  CACHE FILEPATH "Git command line client")
+
+# Cjyx working copy Revision, URL and Root
+set(Cjyx_REVISION "@Cjyx_REVISION@")
+set(Cjyx_WC_REVISION "@Cjyx_WC_REVISION@")
+set(Cjyx_WC_REVISION_HASH "@Cjyx_WC_REVISION_HASH@")
+set(Cjyx_WC_URL "@Cjyx_WC_URL@")
+set(Cjyx_WC_ROOT "@Cjyx_WC_ROOT@")
+
+# Note that the variable "Cjyx_REVISION" can be forced to
+# a particular value by setting environment variable of the same name.
+# This is particularly useful when the revision of Cjyx changes because of
+# updates to the extension build system and the extensions still need to be
+# built against the revision prior to the update.
+if(NOT "$ENV{Cjyx_REVISION}" STREQUAL "")
+  set(Cjyx_REVISION "$ENV{Cjyx_REVISION}")
+  message(STATUS "CjyxConfig: Forcing Cjyx_REVISION to '${Cjyx_REVISION}'")
+endif()
+
+# Cjyx os and architecture
+set(Cjyx_OS "@Cjyx_OS@")
+set(Cjyx_ARCHITECTURE "@Cjyx_ARCHITECTURE@")
+
+# Cjyx main application
+set(Cjyx_MAIN_PROJECT "@Cjyx_MAIN_PROJECT@")
+set(Cjyx_MAIN_PROJECT_APPLICATION_NAME "@Cjyx_MAIN_PROJECT_APPLICATION_NAME@")
+
+# License and Readme file
+set(Cjyx_LICENSE_FILE "@Cjyx_LICENSE_FILE_CONFIG@")
+set(Cjyx_README_FILE "@Cjyx_README_FILE_CONFIG@")
+
+# Test templates directory
+set(Cjyx_CXX_MODULE_TEST_TEMPLATES_DIR "@Cjyx_CXX_MODULE_TEST_TEMPLATES_DIR_CONFIG@")
+set(Cjyx_PYTHON_MODULE_TEST_TEMPLATES_DIR "@Cjyx_PYTHON_MODULE_TEST_TEMPLATES_DIR_CONFIG@")
+
+# Script for generating <Extension>Config.cmake
+set(Cjyx_EXTENSION_GENERATE_CONFIG "@Cjyx_EXTENSION_GENERATE_CONFIG@")
+
+# Path to extension CPack script
+set(Cjyx_EXTENSION_CPACK "@Cjyx_EXTENSION_CPACK_CONFIG@")
+set(Cjyx_EXTENSION_CPACK_BUNDLE_FIXUP "@Cjyx_EXTENSION_CPACK_BUNDLE_FIXUP_CONFIG@")
+set(Cjyx_EXTENSIONS_DIRNAME "@Cjyx_EXTENSIONS_DIRNAME@")
+
+# Whether Cjyx was built with modules and CLI support.
+set(Cjyx_BUILD_CLI "@Cjyx_BUILD_CLI@")
+set(Cjyx_BUILD_QTLOADABLEMODULES "@Cjyx_BUILD_QTLOADABLEMODULES@")
+set(Cjyx_BUILD_QTSCRIPTEDMODULES "@Cjyx_BUILD_QTSCRIPTEDMODULES@")
+
+# Whether Cjyx was built with shared libraries.
+set(Cjyx_BUILD_SHARED "@BUILD_SHARED_LIBS@")
+set(Cjyx_LIBRARY_PROPERTIES "@Cjyx_LIBRARY_PROPERTIES@")
+
+# Export header for BuildModuleLogic and BuildQTModule
+set(Cjyx_EXPORT_HEADER_TEMPLATE "@Cjyx_EXPORT_HEADER_TEMPLATE@")
+set(Cjyx_LOGOS_RESOURCE "@Cjyx_LOGOS_RESOURCE@")
+
+# Cjyx home (top of the tree)
+set(Cjyx_HOME "@Cjyx_HOME@")
+
+# Cjyx binary directory
+set(Cjyx_BINARY_DIR "@Cjyx_BINARY_DIR@")
+
+# Cjyx Core library
+set(Cjyx_CORE_LIBRARY @Cjyx_CORE_LIBRARY_CONFIG@)
+
+# Cjyx GUI library
+set(Cjyx_GUI_LIBRARY @Cjyx_GUI_LIBRARY_CONFIG@)
+
+# MRML libraries - This variable regroup all related MRML libraries
+set(MRML_LIBRARIES @MRML_LIBRARIES@)
+
+# Cjyx Libs VTK wrapped libraries
+set(Cjyx_Libs_VTK_WRAPPED_LIBRARIES "@Cjyx_Libs_VTK_WRAPPED_LIBRARIES@")
+
+# Cjyx VTK version
+set(Cjyx_VTK_VERSION_MAJOR "@Cjyx_VTK_VERSION_MAJOR@")
+
+# Cjyx include directories for module
+@Cjyx_INCLUDE_MODULE_DIRS_CONFIG@
+
+# Cjyx include directories for module logic
+@Cjyx_INCLUDE_MODULE_LOGIC_DIRS_CONFIG@
+
+# Cjyx include directories for module mrml
+@Cjyx_INCLUDE_MODULE_MRML_DIRS_CONFIG@
+
+# Cjyx include directories for module Widget
+@Cjyx_INCLUDE_MODULE_WIDGET_DIRS_CONFIG@
+
+# See vtkAddon/CMake/vtkMacroKitPythonWrap.cmake
+set(Cjyx_VTK_WRAP_HIERARCHY_DIR "@Cjyx_VTK_WRAP_HIERARCHY_DIR@")
+
+# Cjyx VTK wrap hierarchy files
+@Cjyx_WRAP_HIERARCHY_FILES_CONFIG@
+
+# Cjyx Libs include file directories.
+set(Cjyx_Libs_INCLUDE_DIRS "@Cjyx_Libs_INCLUDE_DIRS_CONFIG@")
+
+# Cjyx Base include file directories.
+set(Cjyx_Base_INCLUDE_DIRS "@Cjyx_BINARY_DIR@" "@Cjyx_Base_INCLUDE_DIRS_CONFIG@")
+
+# Cjyx Module logic include file directories.
+set(Cjyx_ModuleLogic_INCLUDE_DIRS "@Cjyx_ModuleLogic_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "Cjyx Module logic includes" FORCE)
+
+# Cjyx Module MRML include file directories.
+set(Cjyx_ModuleMRML_INCLUDE_DIRS "@Cjyx_ModuleMRML_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "Cjyx Module MRML includes" FORCE)
+
+# Cjyx Module Widgets include file directories.
+set(Cjyx_ModuleWidgets_INCLUDE_DIRS "@Cjyx_ModuleWidgets_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "Cjyx Module widgets includes" FORCE)
+
+set(ITKFactoryRegistration_INCLUDE_DIRS "@ITKFactoryRegistration_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "ITKFactoryRegistration includes" FORCE)
+
+set(MRMLCore_INCLUDE_DIRS "@MRMLCore_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "MRMLCore includes" FORCE)
+
+set(MRMLLogic_INCLUDE_DIRS "@MRMLLogic_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "MRMLLogic includes" FORCE)
+
+set(MRMLCLI_INCLUDE_DIRS "@MRMLCLI_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "MRMLCLI includes" FORCE)
+
+set(qMRMLWidgets_INCLUDE_DIRS "@qMRMLWidgets_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "qMRMLWidgets includes" FORCE)
+
+set(RemoteIO_INCLUDE_DIRS "@RemoteIO_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "RemoteIO includes" FORCE)
+
+set(vtkAddon_INCLUDE_DIRS "@vtkAddon_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "vtkAddon includes" FORCE)
+
+set(vtkITK_INCLUDE_DIRS "@vtkITK_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "vtkITK includes" FORCE)
+
+set(vtkSegmentationCore_INCLUDE_DIRS "@vtkSegmentationCore_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "vtkSegmentationCore includes" FORCE)
+
+set(vtkTeem_INCLUDE_DIRS "@vtkTeem_INCLUDE_DIRS_CONFIG@"
+  CACHE INTERNAL "vtkTeem includes" FORCE)
+
+# The location of the UseCjyx.cmake file.
+set(Cjyx_USE_FILE "@Cjyx_USE_FILE_CONFIG@")
+
+set(Cjyx_BINARY_INNER_SUBDIR "@Cjyx_BINARY_INNER_SUBDIR@")
+
+# Cjyx relative build directories.
+set(Cjyx_BIN_DIR "@Cjyx_BIN_DIR@")
+set(Cjyx_LIB_DIR "@Cjyx_LIB_DIR@")
+set(Cjyx_INCLUDE_DIR "@Cjyx_INCLUDE_DIR@")
+set(Cjyx_SHARE_DIR "@Cjyx_SHARE_DIR@")
+set(Cjyx_ITKFACTORIES_DIR "@Cjyx_ITKFACTORIES_DIR@")
+
+set(Cjyx_CLIMODULES_SUBDIR "@Cjyx_CLIMODULES_SUBDIR@")
+set(Cjyx_CLIMODULES_BIN_DIR "@Cjyx_CLIMODULES_BIN_DIR@")
+set(Cjyx_CLIMODULES_LIB_DIR "@Cjyx_CLIMODULES_LIB_DIR@")
+set(Cjyx_CLIMODULES_SHARE_DIR "@Cjyx_CLIMODULES_SHARE_DIR@")
+
+set(Cjyx_QTLOADABLEMODULES_SUBDIR "@Cjyx_QTLOADABLEMODULES_SUBDIR@")
+set(Cjyx_QTLOADABLEMODULES_BIN_DIR "@Cjyx_QTLOADABLEMODULES_BIN_DIR@")
+set(Cjyx_QTLOADABLEMODULES_LIB_DIR "@Cjyx_QTLOADABLEMODULES_LIB_DIR@")
+set(Cjyx_QTLOADABLEMODULES_INCLUDE_DIR "@Cjyx_QTLOADABLEMODULES_INCLUDE_DIR@")
+set(Cjyx_QTLOADABLEMODULES_SHARE_DIR "@Cjyx_QTLOADABLEMODULES_SHARE_DIR@")
+set(Cjyx_QTLOADABLEMODULES_PYTHON_LIB_DIR "@Cjyx_QTLOADABLEMODULES_PYTHON_LIB_DIR@")
+
+if(Cjyx_USE_PYTHONQT)
+  set(Cjyx_QTSCRIPTEDMODULES_SUBDIR "@Cjyx_QTSCRIPTEDMODULES_SUBDIR@")
+  set(Cjyx_QTSCRIPTEDMODULES_BIN_DIR "@Cjyx_QTSCRIPTEDMODULES_BIN_DIR@")
+  set(Cjyx_QTSCRIPTEDMODULES_LIB_DIR "@Cjyx_QTSCRIPTEDMODULES_LIB_DIR@")
+  set(Cjyx_QTSCRIPTEDMODULES_INCLUDE_DIR "@Cjyx_QTSCRIPTEDMODULES_INCLUDE_DIR@")
+  set(Cjyx_QTSCRIPTEDMODULES_SHARE_DIR "@Cjyx_QTSCRIPTEDMODULES_SHARE_DIR@")
+endif()
+
+# ThirdParty: Corresponds to superbuild projects built
+# in Cjyx extension.
+set(Cjyx_THIRDPARTY_BIN_DIR "@Cjyx_THIRDPARTY_BIN_DIR@")
+set(Cjyx_THIRDPARTY_LIB_DIR "@Cjyx_THIRDPARTY_LIB_DIR@")
+set(Cjyx_THIRDPARTY_SHARE_DIR  "@Cjyx_THIRDPARTY_SHARE_DIR@")
+
+# Cjyx Python version
+set(Cjyx_REQUIRED_PYTHON_VERSION "@Cjyx_REQUIRED_PYTHON_VERSION@")
+set(Cjyx_REQUIRED_PYTHON_VERSION_MAJOR "@Cjyx_REQUIRED_PYTHON_VERSION_MAJOR@")
+set(Cjyx_REQUIRED_PYTHON_VERSION_MINOR "@Cjyx_REQUIRED_PYTHON_VERSION_MINOR@")
+set(Cjyx_REQUIRED_PYTHON_VERSION_PATCH "@Cjyx_REQUIRED_PYTHON_VERSION_PATCH@")
+set(Cjyx_REQUIRED_PYTHON_VERSION_DOT "@Cjyx_REQUIRED_PYTHON_VERSION_DOT@")
+
+# Python stdlib and site-package sub-directories
+set(PYTHON_STDLIB_SUBDIR "@PYTHON_STDLIB_SUBDIR@")
+set(PYTHON_SITE_PACKAGES_SUBDIR "@PYTHON_SITE_PACKAGES_SUBDIR@")
+
+# Cjyx install root
+set(Cjyx_INSTALL_ROOT "@Cjyx_INSTALL_ROOT@")
+
+# Cjyx relative install directories.
+set(Cjyx_INSTALL_BIN_DIR "@Cjyx_INSTALL_BIN_DIR@")
+set(Cjyx_INSTALL_LIB_DIR "@Cjyx_INSTALL_LIB_DIR@")
+set(Cjyx_INSTALL_INCLUDE_DIR "@Cjyx_INSTALL_INCLUDE_DIR@")
+set(Cjyx_INSTALL_SHARE_DIR "@Cjyx_INSTALL_SHARE_DIR@")
+set(Cjyx_INSTALL_ITKFACTORIES_DIR "@Cjyx_INSTALL_ITKFACTORIES_DIR@")
+
+set(Cjyx_INSTALL_CLIMODULES_BIN_DIR "@Cjyx_INSTALL_CLIMODULES_BIN_DIR@")
+set(Cjyx_INSTALL_CLIMODULES_LIB_DIR "@Cjyx_INSTALL_CLIMODULES_LIB_DIR@")
+set(Cjyx_INSTALL_CLIMODULES_SHARE_DIR "@Cjyx_INSTALL_CLIMODULES_SHARE_DIR@")
+
+set(Cjyx_INSTALL_QTLOADABLEMODULES_BIN_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_BIN_DIR@")
+set(Cjyx_INSTALL_QTLOADABLEMODULES_LIB_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_LIB_DIR@")
+set(Cjyx_INSTALL_QTLOADABLEMODULES_PYTHON_LIB_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_PYTHON_LIB_DIR@")
+set(Cjyx_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR@")
+set(Cjyx_INSTALL_QTLOADABLEMODULES_SHARE_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_SHARE_DIR@")
+
+if(Cjyx_USE_PYTHONQT)
+  set(Cjyx_INSTALL_QTSCRIPTEDMODULES_BIN_DIR "@Cjyx_INSTALL_QTSCRIPTEDMODULES_BIN_DIR@")
+  set(Cjyx_INSTALL_QTSCRIPTEDMODULES_LIB_DIR "@Cjyx_INSTALL_QTSCRIPTEDMODULES_LIB_DIR@")
+  set(Cjyx_INSTALL_QTSCRIPTEDMODULES_INCLUDE_DIR "@Cjyx_INSTALL_QTSCRIPTEDMODULES_INCLUDE_DIR@")
+  set(Cjyx_INSTALL_QTSCRIPTEDMODULES_SHARE_DIR "@Cjyx_INSTALL_QTSCRIPTEDMODULES_SHARE_DIR@")
+endif()
+
+set(Cjyx_INSTALL_THIRDPARTY_BIN_DIR "${Cjyx_INSTALL_ROOT}${Cjyx_BUNDLE_EXTENSIONS_LOCATION}${Cjyx_THIRDPARTY_BIN_DIR}")
+set(Cjyx_INSTALL_THIRDPARTY_LIB_DIR "${Cjyx_INSTALL_ROOT}${Cjyx_BUNDLE_EXTENSIONS_LOCATION}${Cjyx_THIRDPARTY_LIB_DIR}")
+set(Cjyx_INSTALL_THIRDPARTY_SHARE_DIR "${Cjyx_INSTALL_ROOT}${Cjyx_BUNDLE_EXTENSIONS_LOCATION}${Cjyx_THIRDPARTY_SHARE_DIR}")
+
+# The Cjyx install prefix (*not* defined in the install tree)
+set(Cjyx_INSTALL_PREFIX  "@CMAKE_INSTALL_PREFIX@")
+
+
+# --------------------------------------------------------------------------
+# Testing
+# --------------------------------------------------------------------------
+include(CTestUseLaunchers)
+
+# --------------------------------------------------------------------------
+# External data
+# --------------------------------------------------------------------------
+if(NOT DEFINED Cjyx_ExternalData_DATA_MANAGEMENT_TARGET)
+  set(Cjyx_ExternalData_DATA_MANAGEMENT_TARGET "@Cjyx_ExternalData_DATA_MANAGEMENT_TARGET@")
+endif()
+if(NOT DEFINED SEM_DATA_MANAGEMENT_TARGET)
+  set(SEM_DATA_MANAGEMENT_TARGET ${Cjyx_ExternalData_DATA_MANAGEMENT_TARGET})
+endif()
+set(Cjyx_ExternalData_OBJECT_STORES "@Cjyx_ExternalData_OBJECT_STORES@")
+set(Cjyx_ExternalData_URL_TEMPLATES "@Cjyx_ExternalData_URL_TEMPLATES@")
+
+# --------------------------------------------------------------------------
+# External projects
+# --------------------------------------------------------------------------
+
+# With the help of SuperBuild, Cjyx has been configured and built against a collection
+# of external projects.
+#
+# Considering that, by default, Cjyx and most of its dependent external projects are
+# built as shared library, it's important to make sure that the project including
+# CjyxConfig.cmake (this file) is built against the same set of external projects if it applies.
+#
+# Let's consider the example of a project dependending on both VTK and Cjyx. With the help of
+# the macro 'cjyx_config_set_ep', the build system will check that the path of the already
+# defined VTK_DIR matches the VTK_DIR used to build Cjyx.
+#
+# A typical use of this macro is illustrated below:
+#
+#    cjyx_config_set_ep("VTK_DIR", "@VTK_DIR_CONFIG@")
+#
+#
+macro(cjyx_config_set_ep var value)
+  if(NOT "${value}" STREQUAL "")
+    if(DEFINED ${var})
+      get_filename_component(var_realpath "${${var}}" REALPATH)
+      get_filename_component(value_realpath ${value} REALPATH)
+      if(NOT ${var_realpath} STREQUAL ${value_realpath})
+        message(FATAL_ERROR "Variable ${var} defined prior calling 'find_package(Cjyx)' does NOT "
+                            "match value used to configure Cjyx. It probably means that a different "
+                            "${var} has been used to configure this project and Cjyx.\n"
+                            "${var}=${${var}}\n"
+                            "Cjyx_${var}=${value}")
+      endif()
+    endif()
+    set(${var} "${value}" ${ARGN})
+  endif()
+endmacro()
+
+# CjyxExecutionModel settings
+set(CjyxExecutionModel_CLI_LIBRARY_WRAPPER_CXX "@CjyxExecutionModel_CLI_LIBRARY_WRAPPER_CXX_CONFIG@")
+set(CjyxExecutionModel_EXTRA_INCLUDE_DIRECTORIES "@CjyxExecutionModel_EXTRA_INCLUDE_DIRECTORIES_CONFIG@")
+set(CjyxExecutionModel_EXTRA_EXECUTABLE_TARGET_LIBRARIES "@CjyxExecutionModel_EXTRA_EXECUTABLE_TARGET_LIBRARIES_CONFIG@")
+
+# Cjyx external projects variables
+@Cjyx_SUPERBUILD_EP_VARS_CONFIG@
+
+# --------------------------------------------------------------------------
+# Consistent Compiler Selections
+# --------------------------------------------------------------------------
+# Compilation Commands
+set(Cjyx_CMAKE_CXX_COMPILER "@Cjyx_CMAKE_CXX_COMPILER_CONFIG@")
+set(Cjyx_CMAKE_C_COMPILER   "@Cjyx_CMAKE_C_COMPILER_CONFIG@")
+
+# With the help of SuperBuild, Cjyx has been configured with specific compiler
+#
+# Considering that, by default, Cjyx and most of its dependent external projects are
+# built with a particular compiler, it's important to make sure that the project including
+# CjyxConfig.cmake (this file) is built against the same compliant compiler
+#
+# A typical use of this macro is illustrated below:
+#    cjyx_config_set_compiler_ep("CMAKE_C_COMPILER", "@Cjyx_CMAKE_C_COMPILER@")
+#    cjyx_config_set_compiler_ep("CMAKE_CXX_COMPILER", "@Cjyx_CMAKE_CXX_COMPILER@")
+#
+macro(cjyx_config_set_compiler_ep var value)
+  if(NOT "${value}" STREQUAL "")
+    if(DEFINED ${var})
+      get_filename_component(var_realpath "${${var}}" REALPATH)
+      get_filename_component(value_realpath ${value} REALPATH)
+      if(NOT MSVC AND NOT ${var_realpath} STREQUAL ${value_realpath})
+        message(FATAL_ERROR "Variable ${var} defined prior calling 'find_package(Cjyx)' does NOT "
+                            "match value used to configure Cjyx. It probably means that a different "
+                            "${var} has been used to configure this project and Cjyx.\n"
+                            "${var}=${${var}}\n"
+                            "Cjyx_${var}=${value}")
+      endif()
+    endif()
+    set(${var} "${value}" ${ARGN})
+  endif()
+endmacro()
+cjyx_config_set_compiler_ep( CMAKE_C_COMPILER   "@Cjyx_CMAKE_C_COMPILER_CONFIG@"
+   CACHE PATH "Path to C compiler used in Cjyx build" FORCE )
+cjyx_config_set_compiler_ep( CMAKE_CXX_COMPILER "@Cjyx_CMAKE_CXX_COMPILER_CONFIG@"
+   CACHE PATH "Path to CXX compiler used in Cjyx build" FORCE )
+cjyx_config_set_compiler_ep( CMAKE_CXX_STANDARD "@Cjyx_CMAKE_CXX_STANDARD_CONFIG@"
+   CACHE PATH "C++ standard used in Cjyx build" FORCE )
+cjyx_config_set_compiler_ep( CMAKE_CXX_STANDARD_REQUIRED "@Cjyx_CMAKE_CXX_STANDARD_REQUIRED_CONFIG@"
+   CACHE PATH "Whether the specified C++ standard is a requirement in Cjyx build" FORCE )
+cjyx_config_set_compiler_ep( CMAKE_CXX_EXTENSIONS "@Cjyx_CMAKE_CXX_EXTENSIONS_CONFIG@"
+   CACHE PATH "Whether compiler specific extensions are requested in Cjyx build" FORCE )
+
+# On platform (i.e. Windows with Visual Studio) where it is possible to use
+# either a 32 or 64 bits generator, it is important to compare bitness of Cjyx
+# project against project depending on Cjyx (i.e. extension) to ensure there
+# are no mismatch.
+set(Cjyx_CMAKE_SIZEOF_VOID_P "@CMAKE_SIZEOF_VOID_P@")
+set(Cjyx_CMAKE_GENERATOR "@CMAKE_GENERATOR@")
+if(NOT DEFINED Cjyx_SKIP_CMAKE_SIZEOF_VOID_P_CHECK)
+  set(Cjyx_SKIP_CMAKE_SIZEOF_VOID_P_CHECK FALSE)
+endif()
+if(NOT ${Cjyx_SKIP_CMAKE_SIZEOF_VOID_P_CHECK})
+  if(NOT Cjyx_CMAKE_SIZEOF_VOID_P EQUAL CMAKE_SIZEOF_VOID_P)
+    message(FATAL_ERROR
+      "Mismatch between bitness of '${CMAKE_PROJECT_NAME}' and 'Cjyx' project !\n"
+      "\tCjyx_CMAKE_SIZEOF_VOID_P:${Cjyx_CMAKE_SIZEOF_VOID_P}\n"
+      "\tCMAKE_SIZEOF_VOID_P:${CMAKE_SIZEOF_VOID_P}\n"
+      "Reconfigure '${CMAKE_PROJECT_NAME}' project using a compatible Generator.\n"
+      "Generator used to configure Cjyx was: ${Cjyx_CMAKE_GENERATOR}\n"
+      "See https://www.cmake.org/cmake/help/v2.8.11/cmake.html#opt:-Ggenerator-name")
+  endif()
+endif()
+
+# List all required external project
+set(Cjyx_EXTERNAL_PROJECTS @Cjyx_EXTERNAL_PROJECTS_CONFIG@)
+set(Cjyx_EXTERNAL_PROJECTS_NO_USEFILE @Cjyx_EXTERNAL_PROJECTS_NO_USEFILE_CONFIG@)
+
+@Cjyx_EP_COMPONENT_VARS_CONFIG@
+
+# Include external projects
+foreach(proj ${Cjyx_EXTERNAL_PROJECTS})
+  set(_component_args)
+  if(DEFINED Cjyx_${proj}_COMPONENTS)
+    set(_component_args COMPONENTS ${Cjyx_${proj}_COMPONENTS})
+  endif()
+  find_package(${proj} ${_component_args} REQUIRED)
+  # Add project CMake dir to module path
+  if(DEFINED ${proj}_CMAKE_DIR)
+    set(CMAKE_MODULE_PATH
+      ${${proj}_CMAKE_DIR}
+      ${CMAKE_MODULE_PATH}
+      )
+  endif()
+  # Add project Utilities/CMake dir to module path
+  if(DEFINED ${proj}_CMAKE_UTILITIES_DIR)
+    set(CMAKE_MODULE_PATH
+      ${${proj}_CMAKE_UTILITIES_DIR}
+      ${CMAKE_MODULE_PATH}
+      )
+  endif()
+endforeach()
+
+# List all Cjyx_USE_SYSTEM_* variables
+@Cjyx_EP_USE_SYSTEM_VARS_CONFIG@
+
+# This block should be added after VTK and CTK are found.
+# It will check if CTK_Qt5_DIR is valid.
+include(${Cjyx_CMAKE_DIR}/CjyxBlockFindQtAndCheckVersion.cmake)
+
+# --------------------------------------------------------------------------
+if(EXISTS "@Cjyx_TARGETS_FILE@" AND NOT TARGET CjyxBaseLogic)
+  include("@Cjyx_TARGETS_FILE@")
+endif()

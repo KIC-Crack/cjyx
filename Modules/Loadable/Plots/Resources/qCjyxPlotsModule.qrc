@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/Icons">
+        <file alias="Plots.png">Icons/Plots.png</file>
+    </qresource>
+    <qresource prefix="/Icons/Large">
+        <file alias="CjyxPlotSeries.png">Icons/Large/CjyxPlotSeries.png</file>
+    </qresource>
+    <qresource prefix="/Icons/Medium">
+        <file alias="CjyxPlotSeries.png">Icons/Medium/CjyxPlotSeries.png</file>
+    </qresource>
+    <qresource prefix="/Icons/XLarge">
+        <file alias="CjyxPlotSeries.png">Icons/XLarge/CjyxPlotSeries.png</file>
+    </qresource>
+    <qresource prefix="/Icons/XSmall">
+        <file alias="CjyxPlotSeries.png">Icons/XSmall/CjyxPlotSeries.png</file>
+    </qresource>
+    <qresource prefix="/Icons/Small">
+        <file alias="CjyxPlotSeries.png">Icons/Small/CjyxPlotSeries.png</file>
+    </qresource>
+</RCC>

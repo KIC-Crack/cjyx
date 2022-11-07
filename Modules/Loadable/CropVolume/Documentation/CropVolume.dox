@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_CropVolume CropVolume
+\ingroup Cjyx_QtModules
+This module allows to extract rectangular subvolume from a scalar image, with the subvolume defined by Cjyx ROI widget.
+
+*/

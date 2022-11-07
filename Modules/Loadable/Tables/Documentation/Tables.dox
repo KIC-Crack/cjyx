@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_Tables Tables
+\ingroup Cjyx_QtModules
+This module allows to handle vtkMRMLTableNodes
+
+*/

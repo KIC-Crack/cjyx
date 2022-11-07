@@ -1,0 +1,13 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource>
+    <file>Icons/Small/CjyxAddModel.png</file>
+    <file>Icons/Medium/CjyxAddModel.png</file>
+    <file>Icons/Large/CjyxAddModel.png</file>
+    <file>Icons/XLarge/CjyxAddModel.png</file>
+
+    <file>Icons/Small/CjyxModels.png</file>
+    <file>Icons/Medium/CjyxModels.png</file>
+    <file>Icons/Large/CjyxModels.png</file>
+    <file>Icons/XLarge/CjyxModels.png</file>
+  </qresource>
+</RCC>

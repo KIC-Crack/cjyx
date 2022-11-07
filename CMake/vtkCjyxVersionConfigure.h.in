@@ -1,0 +1,116 @@
+/*=auto=========================================================================
+
+ Portions (c) Copyright 2005 Brigham and Women's Hospital (BWH)
+ All Rights Reserved.
+
+ See COPYRIGHT.txt
+ or http://www.slicer.org/copyright/copyright.txt for details.
+
+ Program:   3D Cjyx
+
+=========================================================================auto=*/
+
+#ifndef __vtkCjyxVersionConfigure_h
+#define __vtkCjyxVersionConfigure_h
+
+/// \file vtkCjyxVersionConfigure.h
+
+#include "vtkCjyxVersionConfigureInternal.h"
+
+/// \def Cjyx_RELEASE_TYPE
+/// \brief Type of Cjyx release: `Experimental`, `Nightly` or `Stable`.
+#define Cjyx_RELEASE_TYPE "@Cjyx_RELEASE_TYPE@"
+
+//-----------------------------------------------------------------------------
+/// \def Cjyx_VERSION
+/// \brief Cjyx version string.
+///
+/// Format is `<Cjyx_VERSION_MAJOR>.<Cjyx_VERSION_MINOR>`.
+#define Cjyx_VERSION "@Cjyx_VERSION@"
+
+/// \def Cjyx_VERSION_FULL
+/// \brief Cjyx long version string.
+///
+/// Format is `<Cjyx_VERSION_MAJOR>.<Cjyx_VERSION_MINOR>.<Cjyx_VERSION_PATCH>[-<Cjyx_BUILDDATE>]`
+#define Cjyx_VERSION_FULL "@Cjyx_VERSION_FULL@"
+
+/// \def Cjyx_BUILDDATE
+/// \brief Build date associated with this project binaries.
+#define Cjyx_BUILDDATE "@Cjyx_BUILDDATE@"
+
+/// \def Cjyx_WC_URL
+/// \brief Source control management URL identifying Cjyx project sources.
+#define Cjyx_WC_URL "@Cjyx_WC_URL@"
+
+/// \def Cjyx_REVISION
+/// \brief Revision identifying this project sources. Can contain WC revision hash or commit count.
+/// \sa Cjyx_WC_REVISION_TYPE
+#define Cjyx_REVISION "@Cjyx_REVISION@"
+
+/// \def Cjyx_REVISION_TYPE
+/// \brief Specifies what is stored in Cjyx_REVISION (hash or commit count).
+/// \sa Cjyx_REVISION
+#define Cjyx_REVISION_TYPE "@Cjyx_REVISION_TYPE@"
+
+/// \def Cjyx_WC_REVISION
+/// \brief Revision identifying this project sources.
+/// \sa Cjyx_WC_URL
+#define Cjyx_WC_REVISION "@Cjyx_WC_REVISION@"
+
+/// \def Cjyx_WC_REVISION_HASH
+/// \brief Revision hash identifying this project sources.
+/// \sa Cjyx_WC_URL
+#define Cjyx_WC_REVISION_HASH "@Cjyx_WC_REVISION_HASH@"
+
+/// \def Cjyx_WC_REVISION_HASH
+/// \brief Commit count identifying this project sources (custom commit count offset applied).
+/// \sa Cjyx_REVISION
+#define Cjyx_COMMIT_COUNT "@Cjyx_COMMIT_COUNT@"
+
+//-----------------------------------------------------------------------------
+/// \def Cjyx_MAIN_PROJECT_VERSION
+/// \brief Cjyx main project version string.
+///
+/// Format is `<Cjyx_MAIN_PROJECT_VERSION_MAJOR>.<Cjyx_MAIN_PROJECT_VERSION_MINOR>`.
+#define Cjyx_MAIN_PROJECT_VERSION "@Cjyx_MAIN_PROJECT_VERSION@"
+
+/// \def Cjyx_MAIN_PROJECT_VERSION_FULL
+/// \brief Cjyx main project long version string.
+///
+/// Format is `<Cjyx_MAIN_PROJECT_VERSION_MAJOR>.<Cjyx_MAIN_PROJECT_VERSION_MINOR>.<Cjyx_MAIN_PROJECT_VERSION_PATCH>[-<Cjyx_MAIN_PROJECT_BUILDDATE>]`
+#define Cjyx_MAIN_PROJECT_VERSION_FULL "@Cjyx_MAIN_PROJECT_VERSION_FULL@"
+
+/// \def Cjyx_MAIN_PROJECT_BUILDDATE
+/// \brief Build date associated with main project binaries.
+#define Cjyx_MAIN_PROJECT_BUILDDATE "@Cjyx_MAIN_PROJECT_BUILDDATE@"
+
+/// \def Cjyx_MAIN_PROJECT_WC_URL
+/// \brief Source control management URL identifying main project sources.
+#define Cjyx_MAIN_PROJECT_WC_URL "@Cjyx_MAIN_PROJECT_WC_URL@"
+
+/// \def Cjyx_MAIN_PROJECT_REVISION
+/// \brief Revision identifying main project sources. Can contain WC revision hash or commit count.
+/// \sa Cjyx_MAIN_PROJECT_WC_REVISION_TYPE
+#define Cjyx_MAIN_PROJECT_REVISION "@Cjyx_MAIN_PROJECT_REVISION@"
+
+/// \def Cjyx_MAIN_PROJECT_REVISION_TYPE
+/// \brief Specifies what is stored in Cjyx_MAIN_PROJECT_REVISION (hash or commit count).
+/// \sa Cjyx_MAIN_PROJECT_REVISION
+#define Cjyx_MAIN_PROJECT_REVISION_TYPE "@Cjyx_MAIN_PROJECT_REVISION_TYPE@"
+
+/// \def Cjyx_MAIN_PROJECT_WC_REVISION
+/// \brief Revision identifying main project sources.
+/// \sa Cjyx_MAIN_PROJECT_WC_URL
+#define Cjyx_MAIN_PROJECT_WC_REVISION "@Cjyx_MAIN_PROJECT_WC_REVISION@"
+
+/// \def Cjyx_MAIN_PROJECT_WC_REVISION_HASH
+/// \brief Revision hash identifying main project sources.
+/// \sa Cjyx_MAIN_PROJECT_WC_URL
+#define Cjyx_MAIN_PROJECT_WC_REVISION_HASH "@Cjyx_MAIN_PROJECT_WC_REVISION_HASH@"
+
+/// \def Cjyx_MAIN_PROJECT_WC_REVISION_HASH
+/// \brief Commit count identifying main project sources (custom commit count offset applied).
+/// \sa Cjyx_MAIN_PROJECT_REVISION
+#define Cjyx_MAIN_PROJECT_COMMIT_COUNT "@Cjyx_MAIN_PROJECT_COMMIT_COUNT@"
+
+#endif // __vtkCjyxVersionConfigure_h

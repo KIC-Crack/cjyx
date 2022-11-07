@@ -1,0 +1,44 @@
+project(vtkCjyx${MODULE_NAME}ModuleVTKWidgets)
+
+set(KIT ${PROJECT_NAME})
+
+set(${KIT}_EXPORT_DIRECTIVE "VTK_CJYX_${MODULE_NAME_UPPER}_MODULE_VTKWIDGETS_EXPORT")
+
+set(${KIT}_INCLUDE_DIRECTORIES
+  )
+
+set(${KIT}_SRCS
+  # Ruler VTK widget
+  vtkAnnotationRulerWidget.cxx
+  vtkAnnotationRulerWidget.h
+  vtkAnnotationRulerRepresentation.cxx
+  vtkAnnotationRulerRepresentation.h
+  vtkAnnotationRulerRepresentation3D.cxx
+  vtkAnnotationRulerRepresentation3D.h
+
+  vtkAnnotationGlyphSource2D.cxx
+  vtkAnnotationGlyphSource2D.h
+
+  vtkAnnotationROIRepresentation.h
+  vtkAnnotationROIRepresentation.cxx
+  vtkAnnotationROIRepresentation2D.h
+  vtkAnnotationROIRepresentation2D.cxx
+  vtkAnnotationROIWidget.h
+  vtkAnnotationROIWidget.cxx
+  vtkAnnotationROIWidget2D.h
+  vtkAnnotationROIWidget2D.cxx
+  )
+
+set(${KIT}_TARGET_LIBRARIES
+  VTK::RenderingAnnotation
+  vtkCjyx${MODULE_NAME}ModuleMRML
+  )
+
+#-----------------------------------------------------------------------------
+CjyxMacroBuildModuleLogic(
+  NAME ${KIT}
+  EXPORT_DIRECTIVE ${${KIT}_EXPORT_DIRECTIVE}
+  INCLUDE_DIRECTORIES ${${KIT}_INCLUDE_DIRECTORIES}
+  SRCS ${${KIT}_SRCS}
+  TARGET_LIBRARIES ${${KIT}_TARGET_LIBRARIES}
+  )

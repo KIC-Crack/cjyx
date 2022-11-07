@@ -1,0 +1,133 @@
+#
+# CjyxConfig.cmake - Cjyx CMake configuration file for external projects
+#
+# This file is configured by Cjyx and used by UseCjyx.cmake module
+# to load Cjyx's settings for an external project. External projects
+# can use these setting to build new modules against a Cjyx build tree
+# or a Cjyx installation.
+#
+
+# The C and C++ flags added by Cjyx to the cmake-configured flags.
+set(Cjyx_REQUIRED_C_FLAGS "@Cjyx_REQUIRED_C_FLAGS@")
+set(Cjyx_REQUIRED_CXX_FLAGS "@Cjyx_REQUIRED_CXX_FLAGS@")
+set(Cjyx_REQUIRED_LINK_FLAGS "@Cjyx_REQUIRED_LINK_FLAGS@")
+
+# Whether Cjyx was built with modules and CLI support.
+set(Cjyx_BUILD_CLI_SUPPORT "@Cjyx_BUILD_CLI_SUPPORT@")
+set(Cjyx_BUILD_CLI "@Cjyx_BUILD_CLI@")
+set(Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT "@Cjyx_BUILD_EXTENSIONMANAGER_SUPPORT@")
+set(Cjyx_BUILD_QTLOADABLEMODULES "@Cjyx_BUILD_QTLOADABLEMODULES@")
+
+# Whether Cjyx was built with shared libraries.
+set(Cjyx_BUILD_SHARED "@BUILD_SHARED_LIBS@")
+
+# Cjyx options
+set(Cjyx_USE_IGSTK "@Cjyx_USE_IGSTK@")
+set(Cjyx_USE_NAVITRACK "@Cjyx_USE_NAVITRACK@")
+set(Cjyx_USE_NUMPY "@Cjyx_USE_NUMPY@")
+set(Cjyx_USE_SCIPY "@Cjyx_USE_SCIPY@")
+set(Cjyx_USE_PYTHONQT "@Cjyx_USE_PYTHONQT@")
+set(Cjyx_USE_OPENTRACKER "@Cjyx_USE_OPENTRACKER@")
+
+# Cjyx could be installed anywhere, so set all paths based on where
+# this file was found (which should be the lib/Cjyx3 directory of the
+# installation)
+get_filename_component(Cjyx_CONFIG_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+# Cjyx home (top of the tree)
+set(Cjyx_HOME "${Cjyx_CONFIG_DIR}/../..")
+get_filename_component(Cjyx_HOME ${Cjyx_HOME} ABSOLUTE)
+
+# The CMake macros dir.
+set(Cjyx_CMAKE_DIR "${Cjyx_HOME}/@Cjyx_INSTALL_LIB_DIR@/CMake")
+
+# Cjyx Libs library directories.
+set(Cjyx_Libs_LIBRARY_DIRS
+  "${Cjyx_HOME}/lib/IGT"
+  "${Cjyx_HOME}/lib/ITKCommandIO"
+  "${Cjyx_HOME}/lib/LoadableModule"
+  "${Cjyx_HOME}/lib/MGHImageIO"
+  "${Cjyx_HOME}/lib/MRML"
+  "${Cjyx_HOME}/lib/MRMLIDImageIO"
+  "${Cjyx_HOME}/lib/ModuleDescriptionParser"
+  "${Cjyx_HOME}/lib/Qdec"
+  "${Cjyx_HOME}/lib/tclap"
+  "${Cjyx_HOME}/lib/vtkAddon"
+  "${Cjyx_HOME}/lib/vtkITK"
+  "${Cjyx_HOME}/lib/vtkSegmentationCore"
+  "${Cjyx_HOME}/lib/vtkTeem"
+  "${Cjyx_HOME}/lib/TclTk/lib"
+  "${Cjyx_HOME}/lib/TclTk/lib/itcl@INCR_TCL_VERSION_DOT@"
+  "${Cjyx_HOME}/lib/TclTk/lib/itk@INCR_TCL_VERSION_DOT@"
+  )
+
+# Cjyx Libs include file directories.
+set(Cjyx_Libs_INCLUDE_DIRS
+  "${Cjyx_HOME}/include/IGT"
+  "${Cjyx_HOME}/include/ITKCommandIO"
+  "${Cjyx_HOME}/include/LoadableModule"
+  "${Cjyx_HOME}/include/MGHImageIO"
+  "${Cjyx_HOME}/include/MRML"
+  "${Cjyx_HOME}/include/MRMLIDImageIO"
+  "${Cjyx_HOME}/include/ModuleDescriptionParser"
+  "${Cjyx_HOME}/include/Qdec"
+  "${Cjyx_HOME}/include/tclap"
+  "${Cjyx_HOME}/include/vtkAddon"
+  "${Cjyx_HOME}/include/vtkITK"
+  "${Cjyx_HOME}/include/vtkSegmentationCore"
+  "${Cjyx_HOME}/include/vtkTeem"
+  )
+
+# Cjyx Base library directories.
+set(Cjyx_Base_LIBRARY_DIRS
+  "${Cjyx_HOME}/@Cjyx_INSTALL_LIB_DIR@"
+  )
+
+# Cjyx Base include file directories.
+set(Cjyx_Base_INCLUDE_DIRS
+  "${Cjyx_HOME}/@Cjyx_INSTALL_INCLUDE_DIR@"
+  "${Cjyx_HOME}/@Cjyx_INSTALL_INCLUDE_DIR@/CjyxBaseCLI"
+  "${Cjyx_HOME}/@Cjyx_INSTALL_INCLUDE_DIR@/CjyxBaseGUI"
+  "${Cjyx_HOME}/@Cjyx_INSTALL_INCLUDE_DIR@/CjyxBaseLogic"
+  )
+
+# The location of the UseCjyx.cmake file.
+set(Cjyx_USE_FILE "${Cjyx_CONFIG_DIR}/UseCjyx.cmake")
+
+# The build settings file.
+set(Cjyx_BUILD_SETTINGS_FILE
+  "${Cjyx_CONFIG_DIR}/CjyxBuildSettings.cmake")
+
+# The Cjyx relative install directories.
+set(Cjyx_INSTALL_BIN_DIR "@Cjyx_INSTALL_BIN_DIR@")
+set(Cjyx_INSTALL_LIB_DIR "@Cjyx_INSTALL_LIB_DIR@")
+set(Cjyx_INSTALL_INCLUDE_DIR "@Cjyx_INSTALL_INCLUDE_DIR@")
+set(Cjyx_INSTALL_SHARE_DIR "@Cjyx_INSTALL_SHARE_DIR@")
+set(Cjyx_INSTALL_ITKFACTORIES_DIR "@Cjyx_INSTALL_ITKFACTORIES_DIR@")
+
+set(Cjyx_INSTALL_CLIMODULES_BIN_DIR "@Cjyx_INSTALL_CLIMODULES_BIN_DIR@")
+set(Cjyx_INSTALL_CLIMODULES_LIB_DIR "@Cjyx_INSTALL_CLIMODULES_LIB_DIR@")
+set(Cjyx_INSTALL_CLIMODULES_SHARE_DIR "@Cjyx_INSTALL_CLIMODULES_SHARE_DIR@")
+
+if(Cjyx_BUILD_QTLOADABLEMODULES)
+  set(Cjyx_INSTALL_QTLOADABLEMODULES_BIN_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_BIN_DIR@")
+  set(Cjyx_INSTALL_QTLOADABLEMODULES_LIB_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_LIB_DIR@")
+  set(Cjyx_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR@")
+  set(Cjyx_INSTALL_QTLOADABLEMODULES_SHARE_DIR "@Cjyx_INSTALL_QTLOADABLEMODULES_SHARE_DIR@")
+endif()
+
+# Components needed to build modules from outside a Cjyx build tree or
+# from outside a Cjyx installation tree
+set(TCLAP_DIR "${Cjyx_HOME}/lib/tclap")
+set(ModuleDescriptionParser_DIR "${Cjyx_HOME}/lib/ModuleDescriptionParser")
+set(GenerateCLP_DIR "${Cjyx_HOME}/lib/GenerateCLP")
+set(GenerateLM_DIR "${Cjyx_HOME}/lib/GenerateLM")
+set(ITK_DIR "${Cjyx_HOME}/lib/${ITK_LIB_DIR}")
+set(LoadableModule_DIR "${Cjyx_HOME}/lib/LoadableModule")
+set(Teem_DIR "${Cjyx_HOME}/lib/Teem-@Teem_VERSION_MAJOR@.@Teem_VERSION_MINOR@.@Teem_VERSION_PATCH@")
+set(VTK_DIR "${Cjyx_HOME}/lib/vtk-@VTK_MAJOR_VERSION@.@VTK_MINOR_VERSION@")
+set(PYTHON_INCLUDE_PATH "@PYTHON_INCLUDE_PATH@")
+get_filename_component(PYTHON_LIB_FILE "${PYTHON_LIBRARY}" NAME)
+set(PYTHON_LIBRARIES "${Cjyx_HOME}/lib/Python/lib/${PYTHON_LIB_FILE}")
+get_filename_component(PYTHON_INCLUDE_DIR "${PYTHON_INCLUDE_PATH}" NAME)
+set(PYTHON_INCLUDE_PATH "${Cjyx_HOME}/lib/Python/include/${PYTHON_INCLUDE_DIR}")

@@ -1,0 +1,6 @@
+/**
+\defgroup Cjyx_QtModules_Volumes Volumes
+\ingroup Cjyx_QtModules
+This module allows to load, save and adjust display parameters of volume data.
+
+*/
